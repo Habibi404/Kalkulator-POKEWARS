@@ -5,31 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalkulator PokeWars</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f0f1a; color: white; display: flex; justify-content: center; padding: 20px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f0f1a; color: white; display: flex; justify-content: center; padding: 15px; }
         .container { width: 100%; max-width: 400px; }
         
-        /* Płaskie, czytelne paski */
         .bar { 
-            background: #1a1a2e; 
-            padding: 15px; 
-            border-radius: 10px; 
-            margin-bottom: 10px; 
-            border-left: 5px solid #7289da;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: #1a1a2e; padding: 15px; border-radius: 10px; margin-bottom: 10px; 
+            border-left: 5px solid #7289da; display: flex; justify-content: space-between; align-items: center;
         }
         .bar.green { border-left-color: #00ff88; }
         
-        .label { font-size: 14px; color: #bbb; }
+        .label { font-size: 13px; color: #bbb; }
         .value { font-size: 16px; font-weight: bold; }
         
         input { 
-            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; 
-            background: #161625; color: white; margin-bottom: 15px; box-sizing: border-box; 
+            width: 100%; padding: 15px; border-radius: 8px; border: 1px solid #333; 
+            background: #161625; color: white; margin-bottom: 15px; box-sizing: border-box; font-size: 16px;
         }
-        h2 { text-align: center; color: #7289da; margin-bottom: 20px; }
-        h3 { color: #888; font-size: 15px; margin-top: 25px; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 5px; text-align: center; }
+        h2 { text-align: center; color: #7289da; margin-bottom: 20px; font-size: 1.5rem; }
     </style>
 </head>
 <body>
@@ -37,9 +29,9 @@
 <div class="container">
     <h2>Kalkulator PokeWars</h2>
 
-    <input type="text" id="jeny" placeholder="Wpisz Jeny..." oninput="oblicz()">
+    <input type="text" id="jeny" placeholder="Wpisz Yeny..." oninput="updateAll()">
     <div class="bar">
-        <span class="label">Wydane na trening:</span>
+        <span class="label">Wydane Yeny na trening:</span>
         <span id="trening" class="value">0 ¥</span>
     </div>
     <div class="bar green">
@@ -47,13 +39,14 @@
         <span id="hodo" class="value">0 ¥</span>
     </div>
 
-    <h3>Kantor PH (1 PH = 12.000 ¥)</h3>
-    <input type="text" id="phInput" placeholder="Wpisz PH..." oninput="obliczKantor()">
+    <h2 style="margin-top: 30px; font-size: 1.2rem;">Kantor PH (1 PH = 12.000 ¥)</h2>
+    <input type="text" id="phInput" placeholder="Wpisz PH..." oninput="updateAll()">
     <div class="bar">
-        <span class="label">Na Jeny:</span>
+        <span class="label">Na Yeny:</span>
         <span id="wynikJeny" class="value">0 ¥</span>
     </div>
-    <input type="text" id="jenyInput" placeholder="Wpisz Jeny..." oninput="obliczKantorOdwrotka()">
+    
+    <input type="text" id="jenyInput" placeholder="Wpisz Yeny..." oninput="updateAll()">
     <div class="bar green">
         <span class="label">Na PH:</span>
         <span id="wynikPH" class="value">0 PH</span>
@@ -61,19 +54,23 @@
 </div>
 
 <script>
-    function oblicz() {
-        let val = parseFloat(document.getElementById('jeny').value.replace(/[^0-9]/g, '')) || 0;
-        document.getElementById('trening').innerText = Math.round(val * 1.6666666666666667).toLocaleString('pl-PL') + ' ¥';
-        document.getElementById('hodo').innerText = Math.round(val * 1.32).toLocaleString('pl-PL') + ' ¥';
-    }
-    function obliczKantor() {
-        let ph = parseFloat(document.getElementById('phInput').value.replace(/[^0-9]/g, '')) || 0;
+    function updateAll() {
+        // HODOWLA
+        let jenyVal = document.getElementById('jeny').value.replace(/[^0-9]/g, '');
+        let jeny = parseFloat(jenyVal) || 0;
+        document.getElementById('trening').innerText = Math.round(jeny * 1.6666666666666667).toLocaleString('pl-PL') + ' ¥';
+        document.getElementById('hodo').innerText = Math.round(jeny * 1.32).toLocaleString('pl-PL') + ' ¥';
+
+        // KANTOR PH -> YENY
+        let phVal = document.getElementById('phInput').value.replace(/[^0-9]/g, '');
+        let ph = parseFloat(phVal) || 0;
         document.getElementById('wynikJeny').innerText = (ph * 12000).toLocaleString('pl-PL') + ' ¥';
-    }
-    function obliczKantorOdwrotka() {
-        let jeny = parseFloat(document.getElementById('jenyInput').value.replace(/[^0-9]/g, '')) || 0;
-        let ph = jeny / 12000;
-        document.getElementById('wynikPH').innerText = ph.toLocaleString('pl-PL', { maximumFractionDigits: 2 }) + ' PH';
+
+        // KANTOR YENY -> PH
+        let jenyInputVal = document.getElementById('jenyInput').value.replace(/[^0-9]/g, '');
+        let jenyIn = parseFloat(jenyInputVal) || 0;
+        let phOut = jenyIn / 12000;
+        document.getElementById('wynikPH').innerText = phOut.toLocaleString('pl-PL', { maximumFractionDigits: 2 }) + ' PH';
     }
 </script>
 </body>
