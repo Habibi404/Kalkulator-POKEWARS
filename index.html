@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalkulator PokeWars</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #0f0f1a; color: white; display: flex; justify-content: center; padding: 20px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f0f1a; color: white; display: flex; justify-content: center; padding: 20px; }
         .card { background: #1a1a2e; padding: 25px; border-radius: 20px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; }
         h2 { color: #7289da; margin-bottom: 25px; }
         input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #333; background: #161625; color: white; box-sizing: border-box; font-size: 18px; margin-bottom: 25px; }
@@ -19,31 +19,34 @@
 
 <div class="card">
     <h2>Kalkulator PokeWars</h2>
-    <input type="text" id="jeny" placeholder="Wpisz kwotę (np. 461.320.333¥)" oninput="oblicz()">
+    <input type="text" id="jeny" placeholder="Wpisz kwotę (np. 1000)" oninput="oblicz()">
     
     <div class="result-bar">
-        <span class="label">Wydane na trening:</span>
-        <span id="kosztTreningu" class="value">0</span>
+        <span class="label">Wydane Jeny na trening:</span>
+        <span id="trening" class="value">0 ¥</span>
     </div>
     <div class="result-bar green">
-        <span class="label">Wartość w hodowli:</span>
-        <span id="wartoscHodo" class="value">0</span>
+        <span class="label">Wartość Hodo:</span>
+        <span id="hodo" class="value">0 ¥</span>
     </div>
 </div>
 
 <script>
     function oblicz() {
         let inputField = document.getElementById('jeny');
-        // Usuwamy wszystko co nie jest cyfrą
+        // Czyścimy wszystko oprócz cyfr
         let czystaLiczba = inputField.value.replace(/[^0-9]/g, '');
-        let jeny = parseFloat(czystaLiczba) || 0;
+        let wartosc = parseFloat(czystaLiczba) || 0;
         
-        let koszt = jeny * 0.4;
-        // 60% bazy * 1.3 bonusu (Premium + Stowarzyszenie)
-        let wynikHodo = (jeny * 0.6) * 1.3;
+        // Obliczenia na podstawie Twojego zrzutu:
+        // Trening: 1000 * 1.6666... = 1666
+        let trening = wartosc * 1.6666666666666667;
         
-        document.getElementById('kosztTreningu').innerText = Math.round(koszt).toLocaleString('pl-PL');
-        document.getElementById('wartoscHodo').innerText = Math.round(wynikHodo).toLocaleString('pl-PL');
+        // Hodo: 1000 * 1.32 = 1320
+        let hodo = wartosc * 1.32;
+        
+        document.getElementById('trening').innerText = Math.round(trening).toLocaleString('pl-PL') + ' ¥';
+        document.getElementById('hodo').innerText = Math.round(hodo).toLocaleString('pl-PL') + ' ¥';
     }
 </script>
 </body>
