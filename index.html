@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Kalkulator Pokémon - Rozbudowany</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; padding: 20px; background-color: #f4f4f4; }
+        .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 320px; }
+        input[type="number"] { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
+        .bonus-options { margin: 10px 0; }
+        .result { margin-top: 20px; font-weight: bold; border-top: 1px solid #ccc; padding-top: 10px; }
+        .info { background: #aed9f5; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 0.85em; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Kalkulator Hodowli</h2>
+    <div class="info">
+        Podstawa: 60% wydanych Jen.<br>
+        +20% za Premium, +10% za stowarzyszenie.
+    </div>
+
+    <label>Wydane Jeny:</label>
+    <input type="number" id="jeny" placeholder="np. 1000" oninput="oblicz()">
+
+    <div class="bonus-options">
+        <label><input type="checkbox" id="premium" onchange="oblicz()"> Konto Premium (+20%)</label><br>
+        <label><input type="checkbox" id="stowarzyszenie" onchange="oblicz()"> Stowarzyszenie (+10%)</label>
+    </div>
+
+    <div class="result">
+        <p>Wartość Hodo: <span id="outHodo">-</span></p>
+    </div>
+</div>
+
+<script>
+    function oblicz() {
+        const jeny = parseFloat(document.getElementById('jeny').value);
+        const isPremium = document.getElementById('premium').checked;
+        const isStow = document.getElementById('stowarzyszenie').checked;
+
+        if (!isNaN(jeny) && jeny > 0) {
+            // Podstawa 60%
+            let mnoznik = 0.6;
+            
+            // Dodawanie bonusów (procenty z wartości bazowej)
+            if (isPremium) mnoznik += 0.2;
+            if (isStow) mnoznik += 0.1;
+
+            const hodo = jeny * mnoznik;
+            document.getElementById('outHodo').innerText = hodo.toFixed(2);
+        } else {
+            document.getElementById('outHodo').innerText = '-';
+        }
+    }
+</script>
+
+</body>
+</html>
